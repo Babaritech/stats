@@ -1,6 +1,6 @@
 SRC=$(basename $(wildcard *.ipynb))
 OUT=$(addsuffix .out,$(SRC))
-HTML=$(addsuffix .html,$(SRC))
+HTML=$(addprefix html/,$(addsuffix .html,$(SRC)))
 
 
 all: run tohtml
@@ -16,8 +16,8 @@ tohtml: $(HTML)
 	jupyter nbconvert --ExecutePreprocessor.timeout=1800 --to notebook --execute $< --output $@
 	mv $@.ipynb $@
 
-%.html: %.out
-	jupyter nbconvert $<
+html/%.html: %.out
+	jupyter nbconvert $< --output $@
 
 clean:
 	rm -f $(OUT) $(HTML)
