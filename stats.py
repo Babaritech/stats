@@ -13,7 +13,9 @@ def get_fullname(customer):
     return customer['firstname'] + ' (' + customer['nickname'] + ') ' + customer['lastname']
 
 def api(path):
-    return requests.get(server + path + '/', auth=(user, password)).json()
+    res = requests.get(server + path + '/', auth=(user, password))
+    assert res.status_code == 200
+    return res.json()
 
 
 # Load DB
@@ -38,6 +40,6 @@ for y in sorted(customers_by_year):
 with open('./html/customers.txt', 'w') as f:
     for (y, b) in res:
         if b is not None:
-            msg = "The biggest customer of class " + y + " is " + get_fullname(b) + " with " + str(b['total']) + "€ spended."
+            msg = "The biggest customer of class " + y + " is " + get_fullname(b) + " with " + str(b['total']) + "€ spent."
             print(msg)
             print(msg, file=f)
