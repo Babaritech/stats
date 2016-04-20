@@ -4,16 +4,15 @@ from getpass import getpass
 import requests
 
 
+# Only accessible from 137.194.0.0/16
 server = 'https://babar.rezel.net/api/'
-user = getpass("API username: ")
-password = getpass("API password: ")
 
 
 def get_fullname(customer):
     return customer['firstname'] + ' (' + customer['nickname'] + ') ' + customer['lastname']
 
 def api(path):
-    res = requests.get(server + path + '/', auth=(user, password))
+    res = requests.get(server + path + '/')
     assert res.status_code == 200
     return res.json()
 
